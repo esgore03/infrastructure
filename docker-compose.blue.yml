@@ -1,0 +1,27 @@
+services:
+  frontend-blue:
+    build:
+      context: ../Spotly-Frontend
+      dockerfile: Dockerfile
+    container_name: frontend-blue
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  backend-blue:
+    build:
+      context: ../Spotly-Backend
+      dockerfile: Dockerfile
+    container_name: backend-blue
+    restart: unless-stopped
+    env_file:
+      - ../Spotly-Backend/.env
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
